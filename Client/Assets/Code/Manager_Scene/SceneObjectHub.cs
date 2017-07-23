@@ -1,16 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
 public class SceneObjectHub
 {
     List<MapItem> mapItemList;
     int nextUid;
-    void Init()
+    public SceneObjectHub()
     {
         mapItemList = new List<MapItem>();
     }
-
     /// <summary>
     /// 增加地图物品
     /// </summary>
