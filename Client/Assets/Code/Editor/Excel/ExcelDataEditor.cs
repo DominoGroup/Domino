@@ -1,10 +1,7 @@
-﻿using System.Data;
+﻿using Excel;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
 using System.IO;
-using System.Reflection;
-using Excel;
+using UnityEngine;
 public class ExcelDataEditor
 {
     // 编辑器使用Excel作为数据工具，打包时将数据转为二进制文件并编译到AssetBundle中
@@ -39,74 +36,36 @@ public class ExcelDataEditor
                         if (index < 0)
                             Debug.LogError(string.Format("Excel表格{0}中，无法找到{1}字段", excelName, field.Name));
                         else
-                        {
-                            // 赋值根据Field类型予以赋值的方法需要增加
-                            //throw new System.NotImplementedException();
-                            field.SetValue(item, ConvertObject(row[j], field.FieldType));
-                        }
+                            field.SetValue(item, ConvertObject(row[j].ToString(), field.FieldType));
                     }
                     result.Add(item);
                 }
-
             }
         }
         //throw new System.NotImplementedException();
         return result;
     }
-    static string GetExcelFilePath(string excelName)
+    private static string GetExcelFilePath(string excelName)
     {
-        return Application.dataPath + Path.DirectorySeparatorChar + excelFileRoot + Path.DirectorySeparatorChar + excelName + excelFileExtension;
+        return Application.dataPath.Remove("Assets".Length) + Path.DirectorySeparatorChar + excelFileRoot + Path.DirectorySeparatorChar + excelName + excelFileExtension;
     }
-
     /// <summary>
-    /// 类型转换
+    /// 按照Field类型设定FieldInfo的数值
     /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    static public object ConvertObject(object obj, System.Type type)
+    // 按照物体类型将字符串转到所需类型
+    private static object ConvertObject(string rawValue, System.Type type)
     {
-        if (type == null) return obj;
-
-        if (obj == null) return type.IsValueType ? Activator.CreateInstance(type) : null;
-
-        Type underlyingType = Nullable.GetUnderlyingType(type);
-        if (type.IsAssignableFrom(obj.GetType())) // 如果待转换对象的类型与目标类型兼容，则无需转换
-        {
-            return obj;
-        }
-        else if ((underlyingType ?? type).IsEnum) // 如果待转换的对象的基类型为枚举
-        {
-            if (underlyingType != null && string.IsNullOrEmpty(obj.ToString())) // 如果目标类型为可空枚举，并且待转换对象为null 则直接返回null值
-            {
-                return null;
-            }
-            else
-            {
-                return Enum.Parse(underlyingType ?? type, obj.ToString());
-            }
-        }
-        else if (typeof(IConvertible).IsAssignableFrom(underlyingType ?? type)) // 如果目标类型的基类型实现了IConvertible，则直接转换
-        {
-            try
-            {
-                return Convert.ChangeType(obj, underlyingType ?? type, null);
-            }
-            catch
-            {
-                return underlyingType == null ? Activator.CreateInstance(type) : null;
-            }
-        }
+        if (type == typeof(int))
+            return int.Parse(rawValue);
+        else if (type == typeof(float))
+            return float.Parse(rawValue);
+        else if (type == typeof(string))
+            return rawValue;
+        else if (type == typeof(SerilizableVector3))
+            return SerilizableVector3.Parse(rawValue);
+        else if (type == typeof(SerilizableQuaternion))
+            return SerilizableQuaternion.Parse(rawValue);
         else
-        {
-            var splitValue = (obj as string).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-            var args = new object[splitValue.Length];
-            
-            for (int i = 0; i < splitValue.Length; i++)
-            {
-                args[i] = ConvertObject(splitValue[i], typeof(float));
-            }
-            return Activator.CreateInstance(type, args);
-        }
+            throw new System.NotImplementedException(string.Format("未处理类型{0}的读取方式", type));
     }
 }
