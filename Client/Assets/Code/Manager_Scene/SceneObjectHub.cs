@@ -16,9 +16,27 @@ public class SceneObjectHub
     public MapItem AddMapItem(int id, Vector3 position, Quaternion rotation)
     {
         nextUid++;
-        var item = AssetHub.instance.GetMapItem(id);
-        item.SetUid(nextUid);
-        return item;
+        var mapItemData = ExcelDataHub.instance.GetMapItemData(id);
+        var mapItemObj = AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab);
+        mapItemObj.transform.localPosition = position;
+        mapItemObj.transform.localRotation = rotation;
+        mapItemObj.transform.localScale = mapItemData.size.ToVector3();
+
+        // 不使用反射来构造逻辑组件
+        MapItem result = null;
+        switch (mapItemData.code)
+        {
+            case "domino":
+                result = mapItemObj.AddComponent<Domino>();
+                break;
+            default:
+                Debug.LogError(string.Format("未处理代码类型{0}", mapItemData.code));
+                break;
+        }
+
+        result.SetItemData(mapItemData);
+        result.SetUid(nextUid);
+        return result;
     }
     public void RemoveMapItem(int uid)
     {

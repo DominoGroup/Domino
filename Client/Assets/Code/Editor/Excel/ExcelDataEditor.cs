@@ -1,16 +1,37 @@
 ﻿using Excel;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
+using UnityEditor;
 using UnityEngine;
+/// <summary>
+/// 将数据打包到AssetBundle的工具
+/// </summary>
 public class ExcelDataEditor
 {
     // 编辑器使用Excel作为数据工具，打包时将数据转为二进制文件并编译到AssetBundle中
     const string excelFileRoot = "Excel";
     const string excelFileExtension = ".xlsx";
+    const string xmlFileExtension = ".xml";
+    [MenuItem("Utility/Read Excel Data")]
+    public static void ReadAllExcelData()
+    {
+        ConvertExcelToXml(ExcelDataHub.mapItemFileName);
+        AssetDatabase.Refresh();
+    }
+    /// <summary>
+    /// 读取一个Excel文件，然后存储成Xml
+    /// </summary>
+    /// <param name="excelName"></param>
+    private static void ConvertExcelToXml(string excelName)
+    {
+        var list = ReadFromExcel<MapItemData>(excelName);
+        SaveToXml(excelName, list);
+    }
     /// <summary>
     /// Excel文件读取一个数据列表
     /// </summary>
-    public static List<T> ReadFromExcel<T>(string excelName) where T : ExcelData, new()
+    private static List<T> ReadFromExcel<T>(string excelName) where T : ExcelData, new()
     {
         var result = new List<T>();
         using (var fs = File.Open(GetExcelFilePath(excelName), FileMode.Open, FileAccess.Read))
@@ -45,9 +66,20 @@ public class ExcelDataEditor
         //throw new System.NotImplementedException();
         return result;
     }
+    
+    private static void SaveToXml<T>(string excelName, List<T> data) where T : ExcelData
+    {
+        var xmlPath = Application.dataPath.Combine(PathConst.assetBundleRoot).Combine(PathConst.dataBundle).Combine(excelName + xmlFileExtension);
+        using (var fs = File.Create(xmlPath))
+        {
+            XmlSerializer serilizer = new XmlSerializer(typeof(List<T>));
+            serilizer.Serialize(fs, data);
+        }
+    }
+
     private static string GetExcelFilePath(string excelName)
     {
-        return Application.dataPath.Remove("Assets".Length) + Path.DirectorySeparatorChar + excelFileRoot + Path.DirectorySeparatorChar + excelName + excelFileExtension;
+        return Application.dataPath.RemoveLast("Assets".Length).Combine(excelFileRoot).Combine(excelName + excelFileExtension);
     }
     /// <summary>
     /// 按照Field类型设定FieldInfo的数值

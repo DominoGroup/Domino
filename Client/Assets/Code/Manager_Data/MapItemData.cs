@@ -7,7 +7,9 @@ public class MapItemData : ExcelData
 {
     public int id;
     public string name;
-    public Vector3 size;
+    public string prefab;
+    public string code;
+    public SerilizableVector3 size;
     public float mass;
     public float drag;
     public float angularDrag;

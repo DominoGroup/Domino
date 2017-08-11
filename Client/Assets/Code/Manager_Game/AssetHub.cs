@@ -1,21 +1,22 @@
 ﻿using UnityEngine;
-public class AssetHub : MonoBehaviour
+using System.Linq;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+public abstract class AssetHub : MonoBehaviour
 {
     public static AssetHub instance { get; private set; }
-
-    private void Awake()
+    protected virtual void Awake()
     {
         if (instance == null)
             instance = this;
         else
             Debug.LogError("AssetHub被重复构造！");
     }
-    /// <summary>
-    /// 获得地图使用的GameObject实例
-    /// </summary>
-    // 注：会完成添加必要组件等一系列功能
-    public MapItem GetMapItem(int id)
-    {
-        throw new System.NotImplementedException();
-    }
+
+    
+
+
+    // 注：暂时只留Editor加载路线，Release版本之后再补
+    public abstract T GetAsset<T>(string bundle, string asset) where T : Object;
 }
