@@ -16,7 +16,7 @@ public class ExcelDataHub : Singleton<ExcelDataHub>
     }
     public MapItemData GetMapItemData(int id)
     {
-        throw new System.NotImplementedException();
+        return mapItemData.Find(a => a.id == id);
     }
     /// <summary>
     /// 二进制文件读取一个数据列表

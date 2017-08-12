@@ -26,7 +26,7 @@ public abstract class MapItem : MonoBehaviour
     public void SetUid(int uid)
     {
 #if UNITY_EDITOR
-        if (uid > 0)
+        if (this.uid > 0)
             throw new System.Exception(string.Format("地图物品被重复构造：{0}", gameObject.name));
         else
 #endif
@@ -36,7 +36,7 @@ public abstract class MapItem : MonoBehaviour
     public void SetItemData(MapItemData itemData)
     {
 #if UNITY_EDITOR
-        if (itemData != null)
+        if (this.itemData != null)
             throw new System.Exception(string.Format("地图数据被重复构造：{0}", gameObject.name));
         else
 #endif

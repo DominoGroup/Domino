@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 using System.Linq;
 /// <summary>
@@ -25,13 +26,13 @@ public class AssetHubEditor : AssetHub
         {
             if (allAssetPaths[i].StartsWith(assetPath))
             {
-                result = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                result = AssetDatabase.LoadAssetAtPath<T>(allAssetPaths[i]);
                 if (result != null)
                     break;
             }
         }
         if (result == null)
-            Debug.LogError(string.Format("无法找到资源包为{0},文件为{1}，类型为{2}的资源", bundle, asset, typeof(T)));
+            Debug.LogError(string.Format("无法找到资源包为{0}，文件为{1}，类型为{2}的资源", bundle, asset, typeof(T)));
         return result;
     }
     public static string GetBundlePathInEditor(string bundle, string asset)
@@ -39,3 +40,4 @@ public class AssetHubEditor : AssetHub
         return "Assets".Combine(PathConst.assetBundleRoot).Combine(bundle).Combine(asset);
     }
 }
+#endif

@@ -17,7 +17,7 @@ public class SceneObjectHub
     {
         nextUid++;
         var mapItemData = ExcelDataHub.instance.GetMapItemData(id);
-        var mapItemObj = AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab);
+        var mapItemObj = Object.Instantiate(AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab));
         mapItemObj.transform.localPosition = position;
         mapItemObj.transform.localRotation = rotation;
         mapItemObj.transform.localScale = mapItemData.size.ToVector3();

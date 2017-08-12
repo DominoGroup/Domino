@@ -40,7 +40,6 @@ public class ExcelDataEditor
             {
                 var table = excelReader.AsDataSet().Tables[0];
                 var fields = typeof(T).GetFields();
-                var item = new T();
                 int rowCount = table.Rows.Count;
                 int columnCount = table.Columns.Count;
                 // 第一行为变量名称
@@ -49,6 +48,7 @@ public class ExcelDataEditor
                     variableNameList.Add(table.Rows[0][i].ToString());
                 for (int i = 1; i < rowCount; i++)
                 {
+                    var item = new T();
                     var row = table.Rows[i];
                     for (int j = 0; j < fields.Length; j++)
                     {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="gb2312"?>
 <ArrayOfMapItemData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <MapItemData>
-    <id>2</id>
-    <name>Domino_1</name>
+    <id>1</id>
+    <name>Domino_0</name>
     <prefab>Brick_0</prefab>
     <code>domino</code>
     <size>
       <x>0.3</x>
-      <y>2</y>
+      <y>1.5</y>
       <z>1</z>
     </size>
     <mass>1</mass>

@@ -132,7 +132,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Code\Editor\Asset\AssetHubEditor.cs" />
     <Compile Include="Assets\Code\Editor\Excel\ExcelDataEditor.cs" />
   </ItemGroup>
   <ItemGroup>

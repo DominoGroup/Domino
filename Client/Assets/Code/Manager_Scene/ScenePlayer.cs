@@ -8,4 +8,8 @@ public class ScenePlayer : MonoSingleton<ScenePlayer>
         base.Awake();
         objectHub = new SceneObjectHub();
     }
+    private void Start()
+    {
+        objectHub.AddMapItem(1, Vector3.zero, Quaternion.identity);
+    }
 }
