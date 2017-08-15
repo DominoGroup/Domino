@@ -51,6 +51,28 @@ public abstract class MapItem : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public static MapItem Create(int id, int uid)
+    {
+        var mapItemData = ExcelDataHub.instance.GetMapItemData(id);
+        var mapItemObj = Instantiate(AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab));
+        mapItemObj.transform.localScale = mapItemData.size.ToVector3();
+
+        // 不使用反射来构造逻辑组件
+        MapItem result = null;
+        switch (mapItemData.code)
+        {
+            case "domino":
+                result = mapItemObj.AddComponent<Domino>();
+                break;
+            default:
+                Debug.LogError(string.Format("未处理代码类型{0}", mapItemData.code));
+                break;
+        }
+        result.SetItemData(mapItemData);
+        result.SetUid(uid);
+        return result;
+    }
 }
 public delegate void MapItemStateDelegate(MapItem mapItem, MapItemState previousState, MapItemState currentState);
 public enum MapItemState
