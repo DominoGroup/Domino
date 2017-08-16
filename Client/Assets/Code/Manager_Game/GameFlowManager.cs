@@ -8,8 +8,5 @@ public class GameFlowManager : MonoSingleton<GameFlowManager>
     {
         base.Awake();
         DontDestroyOnLoad(gameObject);
-#if UNITY_EDITOR
-        gameObject.AddComponent<AssetHubEditor>();
-#endif
     }
 }
