@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿/// <summary>
+/// 地形类型数据，记录地形材质和摩擦力
+/// </summary>
 [System.Serializable]
 public class TerrainTypeData : ExcelData
 {
@@ -7,4 +9,5 @@ public class TerrainTypeData : ExcelData
     public string top;
     public string side;
     public float drag;
+    public string physics;
 }

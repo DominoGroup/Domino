@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Xml.Serialization;
 using System.IO;
-public class ExcelDataHub : Singleton<ExcelDataHub>
+public class ExcelDataHub
 {
     #region 静态路径
     // 注：Excel文件名为静态路径+".xlsx"
@@ -21,6 +21,10 @@ public class ExcelDataHub : Singleton<ExcelDataHub>
     public MapItemData GetMapItemData(int id)
     {
         return mapItemData.Find(a => a.id == id);
+    }
+    public TerrainTypeData GetTerrainTypeData(int id)
+    {
+        return terrainTypeData.Find(a => a.id == id);
     }
     /// <summary>
     /// 二进制文件读取一个数据列表

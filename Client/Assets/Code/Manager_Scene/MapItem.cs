@@ -54,7 +54,7 @@ public abstract class MapItem : MonoBehaviour
 
     public static MapItem Create(int id, int uid)
     {
-        var mapItemData = ExcelDataHub.instance.GetMapItemData(id);
+        var mapItemData = GameDataHub.instance.excelDataHub.GetMapItemData(id);
         var mapItemObj = Instantiate(AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab));
         mapItemObj.transform.localScale = mapItemData.size.ToVector3();
 

@@ -13,4 +13,5 @@ public class MapItemData : ExcelData
     public float mass;
     public float drag;
     public float angularDrag;
+    public string physics;
 }
