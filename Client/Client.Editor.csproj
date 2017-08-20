@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AssetBundle\data\MapItem.xml" />
+    <None Include="Assets\AssetBundle\data\TerrainType.xml" />
     <None Include="Assets\Test\GroundCube\Mobile_Tiles.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

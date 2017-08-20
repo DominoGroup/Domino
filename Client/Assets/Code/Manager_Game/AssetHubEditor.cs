@@ -8,8 +8,9 @@ using System.Linq;
 public class AssetHubEditor : AssetHub
 {
     string[] allAssetPaths;
-    public AssetHubEditor() : base()
+    protected override void Awake()
     {
+        base.Awake();
         allAssetPaths = (from path in AssetDatabase.GetAllAssetPaths()
                          let extension = System.IO.Path.GetExtension(path)
                          where !string.IsNullOrEmpty(extension) && extension != ".meta"

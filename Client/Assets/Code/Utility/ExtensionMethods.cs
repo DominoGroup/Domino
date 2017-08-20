@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System.IO;
 /// <summary>
 /// 扩展方法集合
 /// </summary>
@@ -28,6 +28,30 @@ public static class ExtensionMethods
             return current.Remove(current.Length - length);
         else
             return string.Empty;
+    }
+    /// <summary>
+    /// 为二维数增加一个高度坐标
+    /// </summary>
+    public static Vector3 AddHeight(this Vector2 source, float height = 0)
+    {
+        return new Vector3(source.x, height, source.y);
+    }
+    /// <summary>
+    /// 移除三维数的高度坐标
+    /// </summary>
+    public static Vector2 RemoveHeight(this Vector3 source)
+    {
+        return new Vector2(source.x, source.z);
+    }
+    /// <summary>
+    /// 路径向上移动一级，或者移除文件名
+    /// </summary>
+    public static string MoveUp(this string path)
+    {
+        int index = Mathf.Max(path.LastIndexOf(Path.DirectorySeparatorChar), path.LastIndexOf(Path.AltDirectorySeparatorChar));
+        if (index >= 0)
+            path = path.Remove(index);
+        return path;
     }
     public static T Find<T>(this T[] array, System.Predicate<T> condition)
     {

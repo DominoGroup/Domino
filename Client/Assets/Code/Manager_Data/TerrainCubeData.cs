@@ -4,6 +4,7 @@
 [System.Serializable]
 public class TerrainCubeData
 {
+    public const float thickness = 1f;
     public int terrainId;
     public SerilizableVector2 minValue;
     public SerilizableVector2 maxValue;

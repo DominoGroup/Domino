@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-public class MapItemHub : MonoBehaviour
+public class MapItemHub
 {
     List<MapItem> mapItemList;
     int nextUid;
-
     public MapItemHub()
     {
         mapItemList = new List<MapItem>();

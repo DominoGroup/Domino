@@ -8,6 +8,7 @@ public class TerrainTypeData : ExcelData
     public string name;
     public string top;
     public string side;
+    public string transition;
     public float drag;
     public string physics;
 }

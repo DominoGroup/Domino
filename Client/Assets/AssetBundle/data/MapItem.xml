@@ -11,8 +11,9 @@
       <z>1</z>
     </size>
     <mass>1</mass>
-    <drag>0</drag>
+    <drag>0.3</drag>
     <angularDrag>0.05</angularDrag>
+    <physics>domino</physics>
   </MapItemData>
   <MapItemData>
     <id>2</id>
@@ -25,7 +26,8 @@
       <z>1</z>
     </size>
     <mass>1</mass>
-    <drag>0</drag>
+    <drag>0.3</drag>
     <angularDrag>0.05</angularDrag>
+    <physics>domino</physics>
   </MapItemData>
 </ArrayOfMapItemData>

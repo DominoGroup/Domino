@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gb2312"?>
+<ArrayOfTerrainTypeData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TerrainTypeData>
+    <id>1</id>
+    <name>Grass_0</name>
+    <top>Grass_Top</top>
+    <side>Grass_Side</side>
+    <drag>0.3</drag>
+    <physics>ground</physics>
+  </TerrainTypeData>
+</ArrayOfTerrainTypeData>

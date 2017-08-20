@@ -16,22 +16,15 @@ public class ExcelDataEditor
     [MenuItem("Utility/Read Excel Data")]
     public static void ReadAllExcelData()
     {
-        ConvertExcelToXml(ExcelDataHub.mapItemFileName);
+        ConvertFromExcel<MapItemData>(ExcelDataHub.mapItemFileName);
+        ConvertFromExcel<TerrainTypeData>(ExcelDataHub.terrainFileName);
         AssetDatabase.Refresh();
     }
     /// <summary>
     /// 读取一个Excel文件，然后存储成Xml
     /// </summary>
     /// <param name="excelName"></param>
-    private static void ConvertExcelToXml(string excelName)
-    {
-        var list = ReadFromExcel<MapItemData>(excelName);
-        SaveToXml(excelName, list);
-    }
-    /// <summary>
-    /// Excel文件读取一个数据列表
-    /// </summary>
-    private static List<T> ReadFromExcel<T>(string excelName) where T : ExcelData, new()
+    private static void ConvertFromExcel<T>(string excelName) where T : ExcelData, new()
     {
         var result = new List<T>();
         using (var fs = File.Open(GetExcelFilePath(excelName), FileMode.Open, FileAccess.Read))
@@ -63,8 +56,7 @@ public class ExcelDataEditor
                 }
             }
         }
-        //throw new System.NotImplementedException();
-        return result;
+        SaveToXml(excelName, result);
     }
     
     private static void SaveToXml<T>(string excelName, List<T> data) where T : ExcelData

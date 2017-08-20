@@ -15,13 +15,6 @@ public class TerrainHub
         var terrainTypeData = GameDataHub.instance.excelDataHub.GetTerrainTypeData(cubeData.terrainId);
         var cubeObj = new GameObject(terrainTypeData.name);
         cubeObj.layer = GameDataHub.instance.groundLayer;
-        cubeObj.AddComponent<MeshFilter>();
-        cubeObj.AddComponent<MeshRenderer>();
-
-        throw new System.NotImplementedException("未处理地形生成功能");
-
-        cubeObj.AddComponent<BoxCollider>();
-        
         var terrainCube = cubeObj.AddComponent<TerrainCube>();
         terrainCube.SetCubeData(cubeData);
         return terrainCube;
