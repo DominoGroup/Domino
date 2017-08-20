@@ -10,6 +10,6 @@ public class ScenePlayer : MonoSingleton<ScenePlayer>
     }
     private void Start()
     {
-        objectHub.AddMapItem(1, Vector3.zero, Quaternion.identity);
+        objectHub.mapItemHub.AddMapItem(1, Vector3.zero, Quaternion.identity);
     }
 }

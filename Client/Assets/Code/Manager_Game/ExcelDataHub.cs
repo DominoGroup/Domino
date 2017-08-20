@@ -7,12 +7,16 @@ public class ExcelDataHub : Singleton<ExcelDataHub>
     #region 静态路径
     // 注：Excel文件名为静态路径+".xlsx"
     public const string mapItemFileName = "MapItem";
+    public const string terrainFileName = "TerrainType";
+
     public readonly List<MapItemData> mapItemData;
+    public readonly List<TerrainTypeData> terrainTypeData;
     #endregion
 
     public ExcelDataHub()
     {
         mapItemData = ReadFromBinary<MapItemData>(mapItemFileName);
+        terrainTypeData = ReadFromBinary<TerrainTypeData>(terrainFileName);
     }
     public MapItemData GetMapItemData(int id)
     {

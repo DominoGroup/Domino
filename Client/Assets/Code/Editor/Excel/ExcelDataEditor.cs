@@ -93,6 +93,8 @@ public class ExcelDataEditor
             return float.Parse(rawValue);
         else if (type == typeof(string))
             return rawValue;
+        else if (type == typeof(SerilizableVector2))
+            return SerilizableVector2.Parse(rawValue);
         else if (type == typeof(SerilizableVector3))
             return SerilizableVector3.Parse(rawValue);
         else if (type == typeof(SerilizableQuaternion))
