@@ -7,17 +7,4 @@ using UnityEngine.Events;
 /// </summary>
 public class Domino : MapItem
 {
-    private Rigidbody rigidTarget;
-    protected override void Init()
-    {
-        rigidTarget = GetComponent<Rigidbody>();
-    }
-    // 将物理时间转回渲染时间
-    private void Update()
-    {
-        if (!rigidTarget.IsSleeping())
-            state = MapItemState.acting;
-        else if (state != MapItemState.wait)
-            state = MapItemState.acted;
-    }
 }

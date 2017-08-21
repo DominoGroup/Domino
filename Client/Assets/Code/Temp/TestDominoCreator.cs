@@ -21,43 +21,60 @@ public class TestDominoCreator : MonoBehaviour
         Debug.Log("Load Scene Data");
         var fileName = CheckFileName(loadInput.text);
         if (!string.IsNullOrEmpty(fileName))
-            fileName = Application.dataPath.Combine(PathConst.assetBundleRoot).Combine(PathConst.sceneDataBundle).Combine(fileName);
-        if (File.Exists(fileName))
         {
-            SceneData data = null;
-            using (var fs = File.OpenRead(fileName))
+            if (File.Exists(fileName))
             {
-                var serializer = new XmlSerializer(typeof(SceneData));
-                data = (SceneData)serializer.Deserialize(fs);
+                SceneData data = null;
+                using (var fs = File.OpenRead(fileName))
+                {
+                    var serializer = new XmlSerializer(typeof(SceneData));
+                    data = (SceneData)serializer.Deserialize(fs);
+                }
+                scenePlayer.ReadData(data);
             }
-            scenePlayer.ReadData(data);
+            else
+                Debug.LogError(string.Format("文件不存在，路径{0}", fileName));
         }
-        else
-            Debug.LogError(string.Format("文件不存在，路径{0}", fileName));
     }
     private void OnSaveButton()
     {
         Debug.Log("Save Scene Data");
         var fileName = CheckFileName(saveInput.text);
         if (!string.IsNullOrEmpty(fileName))
-            fileName = Application.dataPath.Combine(PathConst.sceneDataBundle).Combine(fileName);
-        // Hack：由于复制构造不经过ScenePlayer，因此数据也不从ScenePlayer获得
-        var data = new SceneData();
-        var items = FindObjectsOfType<MapItem>();
-        var cubes = FindObjectsOfType<TerrainCube>();
-        var itemDataList = new List<SceneItemData>();
-        var cubeDatalist = new List<TerrainCubeData>();
-        for (int i = 0; i < items.Length; i++)
-            itemDataList.Add(scenePlayer.itemHub.GetItemData(items[i]));
-        for (int i = 0; i < cubes.Length; i++)
-            cubeDatalist.Add(scenePlayer.terrainHub.GetItemData(cubes[i]));
-        data.itemData = itemDataList;
-        data.terrainData = cubeDatalist;
-
-        using (var fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
         {
-            var serializer = new XmlSerializer(typeof(SceneData));
-            serializer.Serialize(fs, data);
+            // Hack：由于复制构造不经过ScenePlayer，因此数据也不从ScenePlayer获得
+            var data = new SceneData();
+            var items = FindObjectsOfType<MapItem>();
+            var cubes = FindObjectsOfType<TerrainCube>();
+            var itemDataList = new List<SceneItemData>();
+            var cubeDatalist = new List<TerrainCubeData>();
+            for (int i = 0; i < items.Length; i++)
+            {
+
+                // Hack：复制构造没有typeData
+                var sceneItemData = new SceneItemData();
+                sceneItemData.mapItemId = 1;
+                sceneItemData.position = items[i].transform.position.ToSerilizable();
+                sceneItemData.rotation = items[i].transform.rotation.ToSerilizable();
+                itemDataList.Add(sceneItemData);
+            }
+            for (int i = 0; i < cubes.Length; i++)
+            {
+                var cubeItemData = new TerrainCubeData();
+                cubeItemData.terrainId = 1;
+                var bounds = cubes[i].GetComponent<BoxCollider>().bounds;
+                cubeItemData.minValue = bounds.min.ToSerilizable();
+                cubeItemData.maxValue = bounds.max.ToSerilizable();
+                cubeDatalist.Add(cubeItemData);
+            }
+            data.itemData = itemDataList;
+            data.terrainData = cubeDatalist;
+
+            using (var fs = File.Open(fileName, FileMode.Create, FileAccess.Write))
+            {
+                var serializer = new XmlSerializer(typeof(SceneData));
+                serializer.Serialize(fs, data);
+            }
         }
     }
     string CheckFileName(string fileName)
@@ -81,6 +98,8 @@ public class TestDominoCreator : MonoBehaviour
                     Debug.LogError(string.Format("后缀名{0}不是xml文件标准", extension));
             }
         }
+        if (!string.IsNullOrEmpty(result))
+            result = Application.dataPath.Combine(PathConst.assetBundleRoot).Combine(PathConst.sceneDataBundle).Combine(result);
         return result;
     }
 }

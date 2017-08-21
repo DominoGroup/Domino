@@ -30,7 +30,9 @@ public abstract class MapItem : SceneObject<ItemTypeData>
     /// 代替原来Unity的Awake方法
     /// </summary>
     // 该方法会确保在uid赋值后执行
-    protected abstract void Init();
+    protected virtual void Init()
+    {
+    }
     public static MapItem Create(ItemTypeData mapItemData, Vector3 position, Quaternion rotation)
     {
         var mapItemObj = Instantiate(AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab));
