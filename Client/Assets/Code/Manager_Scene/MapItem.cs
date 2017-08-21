@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-public abstract class MapItem : MonoBehaviour
+public abstract class MapItem : SceneObject<ItemTypeData>
 {
-    public int uid { get; private set; }
-    public MapItemData itemData { get; private set; }
     public MapItemState state
     {
         get
@@ -23,38 +21,18 @@ public abstract class MapItem : MonoBehaviour
     private MapItemState _state;
     public event MapItemStateDelegate onStateUpdate;
     
-    public void SetUid(int uid)
+    public override void SetUid(int uid)
     {
-#if UNITY_EDITOR
-        if (this.uid > 0)
-            throw new System.Exception(string.Format("地图物品被重复构造：{0}", gameObject.name));
-        else
-#endif
-        this.uid = uid;
+        base.SetUid(uid);
         Init();
-    }
-    public void SetItemData(MapItemData itemData)
-    {
-#if UNITY_EDITOR
-        if (this.itemData != null)
-            throw new System.Exception(string.Format("地图数据被重复构造：{0}", gameObject.name));
-        else
-#endif
-        this.itemData = itemData;
     }
     /// <summary>
     /// 代替原来Unity的Awake方法
     /// </summary>
     // 该方法会确保在uid赋值后执行
     protected abstract void Init();
-    public void Kill()
+    public static MapItem Create(ItemTypeData mapItemData, Vector3 position, Quaternion rotation)
     {
-        Destroy(gameObject);
-    }
-
-    public static MapItem Create(int id, int uid)
-    {
-        var mapItemData = GameDataHub.instance.excelDataHub.GetMapItemData(id);
         var mapItemObj = Instantiate(AssetHub.instance.GetAsset<GameObject>(PathConst.mapItemBundle, mapItemData.prefab));
         mapItemObj.transform.localScale = mapItemData.size.ToVector3();
 
@@ -69,8 +47,9 @@ public abstract class MapItem : MonoBehaviour
                 Debug.LogError(string.Format("未处理代码类型{0}", mapItemData.code));
                 break;
         }
-        result.SetItemData(mapItemData);
-        result.SetUid(uid);
+        result.transform.localPosition = position;
+        result.transform.localRotation = rotation;
+        result.SetTypeData(mapItemData);
         return result;
     }
 }

@@ -3,7 +3,7 @@
 /// 地图物品数据
 /// </summary>
 [System.Serializable]
-public class MapItemData : ExcelData
+public class ItemTypeData : ExcelData
 {
     public int id;
     public string name;

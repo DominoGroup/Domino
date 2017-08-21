@@ -9,16 +9,16 @@ public class ExcelDataHub
     public const string mapItemFileName = "MapItem";
     public const string terrainFileName = "TerrainType";
 
-    public readonly List<MapItemData> mapItemData;
+    public readonly List<ItemTypeData> mapItemData;
     public readonly List<TerrainTypeData> terrainTypeData;
     #endregion
 
     public ExcelDataHub()
     {
-        mapItemData = ReadFromBinary<MapItemData>(mapItemFileName);
+        mapItemData = ReadFromBinary<ItemTypeData>(mapItemFileName);
         terrainTypeData = ReadFromBinary<TerrainTypeData>(terrainFileName);
     }
-    public MapItemData GetMapItemData(int id)
+    public ItemTypeData GetMapItemData(int id)
     {
         return mapItemData.Find(a => a.id == id);
     }
@@ -31,7 +31,7 @@ public class ExcelDataHub
     /// </summary>
     private static List<T> ReadFromBinary<T>(string excelName) where T : ExcelData
     {
-        var textAsset = AssetHub.instance.GetAsset<TextAsset>(PathConst.dataBundle, excelName);
+        var textAsset = AssetHub.instance.GetAsset<TextAsset>(PathConst.excelDataBundle, excelName);
         List<T> result = null;
         using (var textReader = new StringReader(textAsset.text))
         {

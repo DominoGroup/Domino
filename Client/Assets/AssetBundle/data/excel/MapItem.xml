@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="gb2312"?>
-<ArrayOfMapItemData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <MapItemData>
+<ArrayOfItemTypeData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ItemTypeData>
     <id>1</id>
     <name>Domino_0</name>
     <prefab>Brick_0</prefab>
@@ -14,8 +14,8 @@
     <drag>0.3</drag>
     <angularDrag>0.05</angularDrag>
     <physics>domino</physics>
-  </MapItemData>
-  <MapItemData>
+  </ItemTypeData>
+  <ItemTypeData>
     <id>2</id>
     <name>Domino_1</name>
     <prefab>Brick_0</prefab>
@@ -29,5 +29,5 @@
     <drag>0.3</drag>
     <angularDrag>0.05</angularDrag>
     <physics>domino</physics>
-  </MapItemData>
-</ArrayOfMapItemData>
+  </ItemTypeData>
+</ArrayOfItemTypeData>

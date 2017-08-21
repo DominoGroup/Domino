@@ -3,33 +3,23 @@ using System.Collections.Generic;
 /// <summary>
 /// 地形方块
 /// </summary>
-public class TerrainCube : MonoBehaviour
+public class TerrainCube : SceneObject<TerrainTypeData>
 {
     public static Vector3[] pointBuffer = new Vector3[4];
     public static Vector2[] uvBuffer = new Vector2[2];
-    public TerrainCubeData cubeData { get; private set; }
-    public TerrainTypeData typeData { get; private set; }
-    public void SetCubeData(TerrainCubeData cubeData)
+    public BoxCollider boxCollider { get; private set; }
+    private void SetGeometry(Vector3 minPosition, Vector3 maxPosition)
     {
-#if UNITY_EDITOR
-        if (this.cubeData != null)
-            throw new System.Exception(string.Format("地形数据被重复构造：{0}", gameObject.name));
-        else
-#endif
-        {
-            this.cubeData = cubeData;
-            this.typeData = GameDataHub.instance.excelDataHub.GetTerrainTypeData(cubeData.terrainId);
-            var meshFilter = gameObject.AddComponent<MeshFilter>();
-            var meshRenderer = gameObject.AddComponent<MeshRenderer>();
-            var boxCollider = gameObject.AddComponent<BoxCollider>();
-            meshRenderer.sharedMaterials = TerrainHub.GetTerrainMaterials(typeData.top, typeData.side, typeData.transition);
-            
-            var size = (cubeData.maxValue.ToVector3() - cubeData.minValue.ToVector3());
-            boxCollider.center = new Vector3(size.x, -size.y, size.z) * 0.5f;
-            boxCollider.size = size;
-            // 拼合地形效果
-            CubeGeneration(meshFilter, size);
-        }
+        var meshFilter = gameObject.AddComponent<MeshFilter>();
+        var meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        var boxCollider = gameObject.AddComponent<BoxCollider>();
+        meshRenderer.sharedMaterials = TerrainHub.GetTerrainMaterials(typeData.top, typeData.side, typeData.transition);
+
+        var size = (maxPosition - minPosition);
+        boxCollider.center = new Vector3(size.x, -size.y, size.z) * 0.5f;
+        boxCollider.size = size;
+        // 拼合地形效果
+        CubeGeneration(meshFilter, size);
     }
     private void CubeGeneration(MeshFilter meshFilter, Vector3 size)
     {
@@ -145,16 +135,16 @@ public class TerrainCube : MonoBehaviour
     /// <summary>
     /// 创建一个地形方块
     /// </summary>
-    public static TerrainCube Create(TerrainCubeData cubeData)
+    public static TerrainCube Create(TerrainTypeData terrainTypeData, Vector3 minPosition, Vector3 maxPosition)
     {
-        var terrainTypeData = GameDataHub.instance.excelDataHub.GetTerrainTypeData(cubeData.terrainId);
         var cubeObj = new GameObject(terrainTypeData.name);
         cubeObj.layer = GameDataHub.instance.groundLayer;
-        var position = cubeData.minValue.ToVector3();
-        position.y = cubeData.maxValue.ToVector3().y;
+        var position = minPosition;
+        position.y = maxPosition.y;
         cubeObj.transform.position = position;
         var terrainCube = cubeObj.AddComponent<TerrainCube>();
-        terrainCube.SetCubeData(cubeData);
+        terrainCube.SetTypeData(terrainTypeData);
+        terrainCube.SetGeometry(minPosition, maxPosition);
         return terrainCube;
     }
 }

@@ -16,7 +16,7 @@ public class ExcelDataEditor
     [MenuItem("Utility/Read Excel Data")]
     public static void ReadAllExcelData()
     {
-        ConvertFromExcel<MapItemData>(ExcelDataHub.mapItemFileName);
+        ConvertFromExcel<ItemTypeData>(ExcelDataHub.mapItemFileName);
         ConvertFromExcel<TerrainTypeData>(ExcelDataHub.terrainFileName);
         AssetDatabase.Refresh();
     }
@@ -61,7 +61,7 @@ public class ExcelDataEditor
     
     private static void SaveToXml<T>(string excelName, List<T> data) where T : ExcelData
     {
-        var xmlPath = Application.dataPath.Combine(PathConst.assetBundleRoot).Combine(PathConst.dataBundle).Combine(excelName + xmlFileExtension);
+        var xmlPath = Application.dataPath.Combine(PathConst.assetBundleRoot).Combine(PathConst.excelDataBundle).Combine(excelName + xmlFileExtension);
         using (var fs = File.Create(xmlPath))
         {
             XmlSerializer serilizer = new XmlSerializer(typeof(List<T>));

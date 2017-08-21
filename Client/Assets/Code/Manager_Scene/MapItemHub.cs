@@ -1,37 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-public class MapItemHub
+public class MapItemHub : SceneObjectHub<ItemTypeData, MapItem, SceneItemData>
 {
-    List<MapItem> mapItemList;
-    int nextUid;
-    public MapItemHub()
+    public override MapItem CreateItem(SceneItemData itemData)
     {
-        mapItemList = new List<MapItem>();
+        var mapItemData = GameDataHub.instance.excelDataHub.GetMapItemData(itemData.mapItemId);
+        return MapItem.Create(mapItemData, itemData.position.ToVector3(), itemData.rotation.ToQuaternion());
     }
-    /// <summary>
-    /// 增加地图物品
-    /// </summary>
-    /// <returns>地图物品唯一uid</returns>
-    /// 注：添加前需要自行检查位置是否合理
-    public MapItem AddMapItem(int id, Vector3 position, Quaternion rotation)
+    public override SceneItemData GetItemData(MapItem item)
     {
-        nextUid++;
-        var mapItem = MapItem.Create(id, nextUid);
-        mapItem.transform.localPosition = position;
-        mapItem.transform.localRotation = rotation;
-        mapItemList.Add(mapItem);
-        return mapItem;
-    }
-    /// <summary>
-    /// 移除地图物品
-    /// </summary>
-    public void RemoveMapItem(int uid)
-    {
-        var itemId = mapItemList.FindIndex(a => a.uid == uid);
-        if (itemId >= 0)
-        {
-            mapItemList[itemId].Kill();
-            mapItemList.RemoveAt(itemId);
-        }
+        var result = new SceneItemData();
+        result.mapItemId = item.typeData.id;
+        result.position = item.transform.position.ToSerilizable();
+        result.rotation = item.transform.rotation.ToSerilizable();
+        return result;
     }
 }

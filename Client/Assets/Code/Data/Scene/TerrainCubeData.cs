@@ -2,7 +2,7 @@
 /// 地形方块数据
 /// </summary>
 [System.Serializable]
-public class TerrainCubeData
+public class TerrainCubeData : SceneObjectData
 {
     public const float transitionHeight = 0.2f;
     public int terrainId;

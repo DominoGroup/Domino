@@ -80,7 +80,7 @@ public struct SerilizableQuaternion
         result.w = float.Parse(raw[3]);
         return result;
     }
-    public Quaternion ToVector3()
+    public Quaternion ToQuaternion()
     {
         return new Quaternion(x, y, z, w);
     }

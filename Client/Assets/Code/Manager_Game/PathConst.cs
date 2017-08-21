@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using System.IO;
-using System.Collections;
-public static class PathConst
+﻿public static class PathConst
 {
     // AssetBundle文件相对dataPath的位置
     public const string assetBundleRoot = "AssetBundle";
+    // 永久节点路径段
+    public const string dataBundle = "data";
     // 条件节点路径段
     public const string commonBundleRoot = "common";
     // 高级节点路径段
@@ -25,5 +24,18 @@ public static class PathConst
             return commonBundleRoot.Combine(materialBundleRoot).Combine("terrain");
         }
     }
-    public const string dataBundle = "data";
+    public static string excelDataBundle
+    {
+        get
+        {
+            return dataBundle.Combine("excel");
+        }
+    }
+    public static string sceneDataBundle
+    {
+        get
+        {
+            return dataBundle.Combine("scene");
+        }
+    }
 }
