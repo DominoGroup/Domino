@@ -142,4 +142,19 @@ public class TerrainCube : MonoBehaviour
         triangles.Add(startIndex + 1);
         triangles.Add(startIndex);
     }
+    /// <summary>
+    /// 创建一个地形方块
+    /// </summary>
+    public static TerrainCube Create(TerrainCubeData cubeData)
+    {
+        var terrainTypeData = GameDataHub.instance.excelDataHub.GetTerrainTypeData(cubeData.terrainId);
+        var cubeObj = new GameObject(terrainTypeData.name);
+        cubeObj.layer = GameDataHub.instance.groundLayer;
+        var position = cubeData.minValue.ToVector3();
+        position.y = cubeData.maxValue.ToVector3().y;
+        cubeObj.transform.position = position;
+        var terrainCube = cubeObj.AddComponent<TerrainCube>();
+        terrainCube.SetCubeData(cubeData);
+        return terrainCube;
+    }
 }
