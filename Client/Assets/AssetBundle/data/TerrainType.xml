@@ -5,6 +5,7 @@
     <name>Grass_0</name>
     <top>Grass_Top</top>
     <side>Grass_Side</side>
+    <transition>Grass_Trans</transition>
     <drag>0.3</drag>
     <physics>ground</physics>
   </TerrainTypeData>
