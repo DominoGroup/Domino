@@ -7,4 +7,19 @@ using UnityEngine.Events;
 /// </summary>
 public class Domino : MapItem
 {
+    private Rigidbody rigidBody;
+    private BoxCollider boxCollider;
+    private void Awake()
+    {
+        rigidBody = GetComponent<Rigidbody>();
+        boxCollider = GetComponent<BoxCollider>();
+    }
+    protected override void SetTypeData(ItemTypeData typeData)
+    {
+        base.SetTypeData(typeData);
+        rigidBody.mass = typeData.mass;
+        rigidBody.drag = typeData.drag;
+        rigidBody.angularDrag = typeData.angularDrag;
+        boxCollider.sharedMaterial = AssetHub.instance.GetAsset<PhysicMaterial>(PathConst.physicsBundle, typeData.physics);
+    }
 }

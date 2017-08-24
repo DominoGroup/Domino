@@ -8,6 +8,15 @@ public class TerrainCube : SceneObject<TerrainTypeData>
     public static Vector3[] pointBuffer = new Vector3[4];
     public static Vector2[] uvBuffer = new Vector2[2];
     public BoxCollider boxCollider { get; private set; }
+    private void Awake()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+    }
+    protected override void SetTypeData(TerrainTypeData typeData)
+    {
+        base.SetTypeData(typeData);
+        boxCollider.sharedMaterial = AssetHub.instance.GetAsset<PhysicMaterial>(PathConst.physicsBundle, typeData.physics);
+    }
     private void SetGeometry(Vector3 minPosition, Vector3 maxPosition)
     {
         var meshFilter = gameObject.AddComponent<MeshFilter>();

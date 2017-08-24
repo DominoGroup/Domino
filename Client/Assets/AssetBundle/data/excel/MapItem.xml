@@ -6,8 +6,8 @@
     <prefab>Brick_0</prefab>
     <code>domino</code>
     <size>
-      <x>0.3</x>
-      <y>1.5</y>
+      <x>1</x>
+      <y>1</y>
       <z>1</z>
     </size>
     <mass>1</mass>
@@ -21,7 +21,7 @@
     <prefab>Brick_0</prefab>
     <code>domino</code>
     <size>
-      <x>0.3</x>
+      <x>2</x>
       <y>2</y>
       <z>1</z>
     </size>
